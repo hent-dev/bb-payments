@@ -114,6 +114,7 @@ module BancoBrasilPayments
         :ssl_verifyhost => _verify_ssl_host,
         :sslcert => @config.cert_file,
         :sslkey => @config.key_file,
+        :sslkeypasswd => @config.ssl_key_passwd,
         :verbose => @config.debugging
       }
 

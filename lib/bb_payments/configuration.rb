@@ -118,6 +118,10 @@ module BancoBrasilPayments
     # Client private key file (for client certificate)
     attr_accessor :key_file
 
+    ### TLS/SSL setting
+    # Client private key passphrase (for client certificate)
+    attr_accessor :ssl_key_passwd
+
     # Set this to customize parameters encoding of array parameter with multi collectionFormat.
     # Default to nil.
     #
@@ -178,6 +182,7 @@ module BancoBrasilPayments
       oauth_config.access_token = access_token
       oauth_config.username = username
       oauth_config.password = password
+      oauth_config.ssl_ca_cert = ssl_ca_cert
       oauth_config
     end
 
