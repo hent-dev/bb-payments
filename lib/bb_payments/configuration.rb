@@ -17,6 +17,9 @@ module BancoBrasilPayments
     # Defines url host
     attr_accessor :host
 
+    # Defines url for oauth
+    attr_accessor :oauth_host
+
     # Defines url base path
     attr_accessor :base_path
 
@@ -135,11 +138,13 @@ module BancoBrasilPayments
 
     attr_accessor :access_token_scopes
 
-    attr_accessor :environment
+    attr_accessor :app_key_name
 
     def initialize
       @scheme = 'https'
-      @environment = ''
+      @app_key_name = 'gw-app-key'
+      @host = 'api-ip.bb.com.br'
+      @oauth_host = 'oauth.bb.com.br'
       @base_path = 'payments-vpn/v3'
       @api_key = {}
       @api_key_prefix = {}
@@ -159,21 +164,13 @@ module BancoBrasilPayments
       yield(self) if block_given?
     end
 
-    def host
-      environment.present? ? "api.#{environment}.bb.com.br" : 'api.bb.com.br'
-    end
-
-    def app_key_name
-      environment.present? ? 'gw-dev-app-key' : 'gw-app-key'
-    end
-
     def client_credentials_api
       @client_credentials_api ||= BancoBrasilClientCredentials::ApiClient.new oauth_config
     end
 
     def oauth_config
       oauth_config = BancoBrasilClientCredentials::Configuration.new
-      oauth_config.host = environment.present? ? "oauth.#{environment}.bb.com.br" : 'oauth.bb.com.br'
+      oauth_config.host = oauth_host
       oauth_config.base_path = ''
       oauth_config.logger = logger
       oauth_config.debugging = debugging
@@ -185,8 +182,6 @@ module BancoBrasilPayments
       oauth_config.ssl_ca_cert = ssl_ca_cert
       oauth_config
     end
-
-
 
     # The default Configuration object.
     def self.default
