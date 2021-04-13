@@ -65,7 +65,7 @@ module BancoBrasilPayments
         elsif response.code == 0
           # Errors from libcurl will be made visible here
           fail ApiError.new(:code => 0,
-                            :message => response.return_message)
+                            :message => response.return_message.force_encoding('utf-8'))
         else
           fail ApiError.new(:code => response.code,
                             :response_headers => response.headers,
@@ -115,7 +115,8 @@ module BancoBrasilPayments
         :sslcert => @config.cert_file,
         :sslkey => @config.key_file,
         :sslkeypasswd => @config.ssl_key_passwd,
-        :verbose => @config.debugging
+        :verbose => @config.debugging,
+        :accept_encoding => "gzip"
       }
 
       # set custom cert, if provided
