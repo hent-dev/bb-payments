@@ -159,7 +159,7 @@ module BancoBrasilPayments
       @inject_format = false
       @force_ending_format = false
       @logger = defined?(Jets) ? Jets.logger : Logger.new(STDOUT)
-      @access_token_scopes = 'payments.transfers-info payments.transfer-batch-request'
+      @access_token_scopes = 'payments.transfers-info payments.transfer-batch-request pagamentos-lote.lotes-requisicao'
 
       yield(self) if block_given?
     end
@@ -208,7 +208,7 @@ module BancoBrasilPayments
       @base_path = '' if @base_path == '/'
     end
 
-    def base_url
+    def base_url(base_path)
       "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '')
     end
 

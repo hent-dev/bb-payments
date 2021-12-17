@@ -17,6 +17,75 @@ module BancoBrasilPayments
       @api_client = api_client
       @gw_app_key = @api_client.config.gw_app_key
     end
+
+    # Permite que a empresa efetue a liberação dos lotes de pagamentos diretamente de seu sistema de gestão - ERP.
+    # @param id Numero da requisiçãoujos pagamentos estão sendo liberados.
+    # @param float Indicador de concordância da tarifa de antecipacao.
+    def liberar_pagamentos(id, float, opts = {})
+      data, _status_code, _headers = liberar_pagamentos_with_http_info(id, float, opts = opts)
+      data
+    end
+
+    # Permite que a empresa efetue a liberação dos lotes de pagamentos diretamente de seu sistema de gestão - ERP.
+    # @param id Numero da requisiçãoujos pagamentos estão sendo liberados.
+    # @param float Indicador de concordância da tarifa de antecipacao.
+    def liberar_pagamentos_with_http_info(id, float, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TransfersApi.liberar_pagamentos ...'
+      end
+      # verify the required parameter 'gw_app_key' is set
+      if @api_client.config.client_side_validation && gw_app_key.nil?
+        fail ArgumentError, "Missing the required parameter 'gw_app_key' when calling TransfersApi.liberar_pagamentos"
+      end
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling TransfersApi.liberar_pagamentos"
+      end
+      # verify the required parameter 'end_date' is set
+      if @api_client.config.client_side_validation && float.nil?
+        fail ArgumentError, "Missing the required parameter 'float' when calling TransfersApi.liberar_pagamentos"
+      end
+
+      # resource path
+      local_var_path = '/liberar-pagamentos'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[@api_client.config.app_key_name.to_sym] = gw_app_key
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] || {}
+      post_body[:'numeroRequisicao'] = id
+      post_body[:'indicadorFloat'] = float ? 'S' : 'N'
+
+      return_type = opts[:return_type] || 'Hash<String, String>'
+
+      auth_names = opts[:auth_names] || ['OAuth2-CC']
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+                                                        :base_path => '/pagamentos-lote/v1',
+                                                        :header_params => header_params,
+                                                        :query_params => query_params,
+                                                        :form_params => form_params,
+                                                        :body => post_body,
+                                                        :auth_names => auth_names,
+                                                        :return_type => return_type)
+
+      if @api_client.config.debugging
+        message = "API called: TransfersApi#liberar_pagamentos\n"\
+                  "Data: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug message
+      end
+      return data, status_code, headers
+    end
+
     # Retrieval of detailed infomation of a specific payment
     # Recupera detalhes de uma transferência específica enviada enviada pela solicitação ao recurso /batch-transfers (POST)
     # @param id Identificação de um pagamento específico para um beneficiário. NÃO é o valor do campo requestIdentification do recurso \&quot;Solicitação para transferências em lote\&quot;, mas o campo paymentId na matriz paymentsList do recurso \&quot;Recuperação de transferências em lote\&quot;.

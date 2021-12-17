@@ -92,7 +92,8 @@ module BancoBrasilPayments
     # @option opts [Object] :body HTTP body (JSON/XML)
     # @return [Typhoeus::Request] A Typhoeus Request
     def build_request(http_method, path, opts = {})
-      url = build_request_url(path)
+      base_path = opts[:base_path]
+      url = build_request_url(path, base_path)
       http_method = http_method.to_sym.downcase
 
       header_params = @default_headers.merge(opts[:header_params] || {})
@@ -297,10 +298,10 @@ module BancoBrasilPayments
       filename.gsub(/.*[\/\\]/, '')
     end
 
-    def build_request_url(path)
+    def build_request_url(path, base_path = nil)
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url + path
+      @config.base_url(base_path || @config.base_path) + path
     end
 
     def valid_token?
