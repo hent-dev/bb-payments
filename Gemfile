@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'bb_oauth', git: 'https://github.com/roque86/bb-oautht', branch: 'main'
+gem 'bb_oauth', git: 'https://github.com/roque86/bb-oauth', branch: 'main'
 
 group :development, :test do
   gem 'rake', '~> 13.0.1'
