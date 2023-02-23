@@ -161,7 +161,8 @@ module BancoBrasilPayments
       @logger = defined?(Jets) ? Jets.logger : Logger.new(STDOUT)
       @access_token_scopes = 'payments.transfers-info payments.transfer-batch-request '\
                              'pagamentos-lote.lotes-requisicao pagamentos-lote.lotes-info '\
-                             'pagamentos-lote.transferencias-pix-info pagamentos-lote.transferencias-pix-requisicao'
+                             'pagamentos-lote.transferencias-pix-info pagamentos-lote.transferencias-pix-requisicao '\
+                             'pagamentos-lote.cancelar-requisicao'
 
       yield(self) if block_given?
     end

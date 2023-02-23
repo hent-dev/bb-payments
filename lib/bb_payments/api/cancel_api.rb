@@ -62,9 +62,9 @@ module BancoBrasilPayments
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
+      post_body = opts[:body] || @api_client.object_to_http_body(body)
 
-      return_type = opts[:return_type] || 'RootTypeForBatchTransfersCancelResponseObject' 
+      return_type = opts[:return_type] || 'RootTypeForBatchTransfersCancelResponseObject'
 
       auth_names = opts[:auth_names] || ['OAuth2-CC']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
@@ -77,6 +77,59 @@ module BancoBrasilPayments
 
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: CancelApi#cancelamento_transferencia_lote\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # POST /cancelar-pagamentos Cancelar Lote de Pagamentos
+    # Efetua o Cancelamento de um Lote de Pagamentos
+    def cancel_payments_with_http_info(body, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: CancelApi.cancelamento_pagamentos ...'
+      end
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling CancelApi.cancelamento_pagamentos"
+      end
+      # verify the required parameter 'gw_app_key' is set
+      if @api_client.config.client_side_validation && gw_app_key.nil?
+        fail ArgumentError, "Missing the required parameter 'gw_app_key' when calling CancelApi.cancelamento_pagamentos"
+      end
+      # resource path
+      local_var_path = '/cancelar-pagamentos'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[@api_client.config.app_key_name.to_sym] = gw_app_key
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] || @api_client.object_to_http_body(body)
+
+      return_type = opts[:return_type] ||  'Hash<String, Array<Object>>' # TODO: define type>>
+
+      auth_names = opts[:auth_names] || ['OAuth2-CC']
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+                                                        :base_path => '/pagamentos-lote/v1',
+                                                        :header_params => header_params,
+                                                        :query_params => query_params,
+                                                        :form_params => form_params,
+                                                        :body => post_body,
+                                                        :auth_names => auth_names,
+                                                        :return_type => return_type)
+
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'API called: CancelApi#cancelamento_pagamentos\nData: '\
+                                                 "#{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

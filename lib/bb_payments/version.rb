@@ -10,5 +10,5 @@ Swagger Codegen version: 3.0.24
 =end
 
 module BancoBrasilPayments
-  VERSION = '1.0.6'
+  VERSION = '1.0.7'
 end
